@@ -1,29 +1,59 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <Navbar />
+    <Banner />
+    <div class="container fluid">
+    <form>
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Email address</label>
+      <input v-model="data.email" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Rip Genji">
     </div>
-    <router-view/>
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Task Name</label>
+      <input v-model="data.task" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Rip Genji">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlInput1">idk</label>
+      <input v-model="data.idk" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Rip Genji">
+    </div>
+    <button type="button" @click="addTask" class="btn btn-primary btn-block">Add Task</button>
+  </form>
+  <br><br><br>
+  </div>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import axios from 'axios'
+const Navbar =()=> import('@/components/Navbar.vue'),
+      Banner =()=> import('@/components/Banner.vue')
+export default {
+  name: 'App',
+  data: ()=> ({
+    data: {
+      email: '',
+      task: '',
+      idk: ''
     }
+  }),
+  methods: {
+    addTask() {
+      axios.post('http://localhost:8081/', this.data)
+        .then((res) => {
+          let { success, data } = res.data
+          if(success) {
+            alert(JSON.stringify(data))
+          }
+        })
+    }
+  },
+  components: {
+    Navbar, Banner
   }
 }
+</script>
+
+
+<style lang="scss">
+
 </style>
